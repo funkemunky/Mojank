@@ -6,6 +6,7 @@ import cc.funkemunky.fixer.api.event.MListener;
 import cc.funkemunky.fixer.api.utils.BlockUtil;
 import cc.funkemunky.fixer.api.utils.MathUtil;
 import cc.funkemunky.fixer.api.utils.MiscUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -48,11 +49,12 @@ public class MoveEvent extends MListener {
 
         /* Utility for noFall Fix */
 
-        double deltaY = MathUtil.getVerticalDistance(event.getFrom(), event.getTo());
+        double deltaY = event.getTo().getY() - event.getFrom().getY();
         if(deltaY < 0) {
             data.fallDistance += Math.abs(deltaY);
         } else {
             data.fallDistance = 0;
         }
+       //Bukkit.broadcastMessage(deltaY + "");
     }
 }

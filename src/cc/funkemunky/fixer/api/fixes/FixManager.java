@@ -1,9 +1,6 @@
 package cc.funkemunky.fixer.api.fixes;
 
-import cc.funkemunky.fixer.Mojank;
-import cc.funkemunky.fixer.impl.fixes.BlockGlitching;
-import cc.funkemunky.fixer.impl.fixes.Falling;
-import cc.funkemunky.fixer.impl.fixes.Phase;
+import cc.funkemunky.fixer.impl.fixes.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -17,9 +14,11 @@ public class FixManager {
     public FixManager() {
         fixes = new ArrayList<>();
 
-        new BlockGlitching();
-        new Falling();
-        new Phase();
+        addFix(new BlockGlitching());
+        addFix(new Falling());
+        addFix(new Phase());
+        addFix(new Crash());
+        addFix(new DamageIndicators());
     }
 
     public void addFix(Fix fix) {

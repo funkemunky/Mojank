@@ -1,0 +1,5 @@
+name: Mojank
+main: cc.funkemunky.fixer.Mojank
+version: 1.0-b2
+author: funkemunky
+softdepend: [ProtocolLib]

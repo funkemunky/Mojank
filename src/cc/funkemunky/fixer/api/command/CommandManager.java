@@ -2,8 +2,11 @@ package cc.funkemunky.fixer.api.command;
 
 import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.event.MListener;
+import cc.funkemunky.fixer.impl.commands.MojankCommand;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
@@ -17,10 +20,19 @@ public class CommandManager extends MListener {
 
     public CommandManager() {
         commands = new ArrayList<>();
-        Mojank.getInstance().getServer().getPluginManager().registerEvents(this, Mojank.getInstance());
+
+        init();
     }
 
-    @EventHandler
+    private void init() {
+        addCommand(new MojankCommand());
+    }
+
+    public void addCommand(Command command) {
+        commands.add(command);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         String[] message = event.getMessage().split(" ");
         String command = message[0].replaceAll("/", "");
@@ -42,11 +54,9 @@ public class CommandManager extends MListener {
 
         Optional<Command> opCommand = commands.stream().filter(cmd -> cmd.getName().equalsIgnoreCase(command)).findFirst();
 
-
         if(opCommand.isPresent()) {
             String[] args = event.getCommand().replaceAll(message[0] + " ", "").split(" ");
             opCommand.get().onCommand(event.getSender(), args);
-            event.setCancelled(true);
         }
     }
 }

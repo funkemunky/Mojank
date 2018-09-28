@@ -5,6 +5,7 @@ import cc.funkemunky.fixer.api.utils.BlockUtil;
 import cc.funkemunky.fixer.api.utils.BoundingBox;
 import cc.funkemunky.fixer.api.utils.MathUtil;
 import cc.funkemunky.fixer.api.utils.ReflectionsUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -47,18 +48,7 @@ public class Phase extends Fix {
 
         if(ReflectionsUtil.getCollidingBlocks(e.getPlayer(), box).size() > 0) {
             e.setTo(e.getFrom());
-        }
-    }
-
-    @EventHandler
-    public void onVclip(PlayerMoveEvent event) {
-        for(int y = Math.min(event.getFrom().getBlockY(), event.getTo().getBlockY()) ; y < Math.max(event.getFrom().getBlockY(), event.getTo().getBlockY()) ; y++) {
-            Block block = new Location(event.getPlayer().getWorld(), event.getTo().getX(), y, event.getTo().getZ()).getBlock();
-
-            if(BlockUtil.isSolid(block)) {
-                event.setCancelled(true);
-                break;
-            }
+            e.getPlayer().sendMessage(ChatColor.GRAY + "Fix: Phase");
         }
     }
 

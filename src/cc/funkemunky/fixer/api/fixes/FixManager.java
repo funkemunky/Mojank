@@ -27,6 +27,7 @@ public class FixManager {
         addFix(new MorePackets());
         addFix(new AntiVPN());
         addFix(new BookExploits());
+        addFix(new Spam());
     }
 
     public void addFix(Fix fix) {

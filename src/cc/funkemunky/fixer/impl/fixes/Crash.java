@@ -3,6 +3,7 @@ package cc.funkemunky.fixer.impl.fixes;
 import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.data.PlayerData;
 import cc.funkemunky.fixer.api.fixes.Fix;
+import cc.funkemunky.fixer.api.utils.Color;
 import cc.funkemunky.fixer.api.utils.MathUtil;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -24,7 +25,7 @@ public class Crash extends Fix {
             if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                 event.setCancelled(true);
             } else {
-                event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Move"));
+                event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Move")));
             }
         }
     }
@@ -46,7 +47,7 @@ public class Crash extends Fix {
                                 if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                                     event.setCancelled(true);
                                 } else {
-                                    event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Item"));
+                                    event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Item")));
                                 }
                             }
                         }
@@ -59,7 +60,7 @@ public class Crash extends Fix {
                                 if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                                     event.setCancelled(true);
                                 } else {
-                                    event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Swing"));
+                                    event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Swing")));
                                 }
                             }
                         }

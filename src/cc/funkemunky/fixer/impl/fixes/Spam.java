@@ -10,30 +10,31 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
-public class MorePackets extends Fix {
-    public MorePackets() {
-        super("MorePackets", true, true);
+public class Spam extends Fix {
+    public Spam() {
+        super("Spam", true, true);
 
-        addConfigValue("kickMessage", "&6Mojank&7: Too many packets.");
+        addConfigValue("timeAllowed", 250);
+        addConfigValue("threshold", 5);
+        addConfigValue("kickMessage", "&6Mojank&7: Kicked for spam.");
     }
 
     @Override
     public void protocolLibListeners() {
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mojank.getInstance(),
-                PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.POSITION, PacketType.Play.Client.LOOK, PacketType.Play.Client.FLYING) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mojank.getInstance(), PacketType.Play.Client.CLIENT_COMMAND, PacketType.Play.Client.CHAT) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer());
 
                 if(data != null) {
-                    if(MathUtil.elapsed(data.flyingPacketsInSecond, 1000L)) {
-                        if(data.flyingPacketsInSecond > 150) {
+                    if(!MathUtil.elapsed(data.lastChat, (int) getConfigValues().get("timeAllowed"))) {
+                        if(data.chatVerbose++ > (int) getConfigValues().get("threshold")) {
                             event.getPlayer().kickPlayer(Color.translate((String) getConfigValues().get("kickMessage")));
                         }
-                        data.flyingPacketsInSecond = 0;
                     } else {
-                        data.flyingPacketsInSecond++;
+                        data.chatVerbose = Math.max(0, data.chatVerbose - 1);
                     }
+                    data.lastChat = System.currentTimeMillis();
                 }
             }
         });

@@ -33,8 +33,13 @@ public class BlockGlitching extends Fix {
             if(trace.intersects(entityBox, 3.25, 0.25)
                     && trace.getBlocks(player.getWorld(), MathUtil.getHorizontalDistance(event.getDamager().getLocation(), event.getEntity().getLocation()), 0.25).stream().allMatch(block -> BlockUtil.isSolid(block) && ReflectionsUtil.getBlockBoundingBox(block).getMaximum().subtract(block.getLocation().toVector()).lengthSquared() == 3 && !BlockUtil.isStair(block))) {
                 event.setCancelled(true);
-                event.getDamager().sendMessage(ChatColor.GRAY + "Fix: Block Glitch");
+                //event.getDamager().sendMessage(ChatColor.GRAY + "Fix: Block Glitch");
             }
         }
+    }
+
+    @Override
+    public void protocolLibListeners() {
+
     }
 }

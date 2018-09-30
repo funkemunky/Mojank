@@ -14,8 +14,25 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class Crash extends Fix {
     public Crash() {
         super("Crash", true, true);
+        addConfigValue("kickMessage", "%prefix% &7You have been kicked for: &e%method%");
+        addConfigValue("cancelInsteadOfKick", false);
+    }
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mojank.getInstance(), PacketType.Play.Client.FLYING, PacketType.Play.Client.POSITION, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK, PacketType.Play.Client.ARM_ANIMATION, PacketType.Play.Client.HELD_ITEM_SLOT) {
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if(event.getFrom().distance(event.getTo()) > 20) {
+            if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+                event.setCancelled(true);
+            } else {
+                event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Move"));
+            }
+        }
+    }
+
+
+    @Override
+    public void protocolLibListeners() {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mojank.getInstance(), PacketType.Play.Client.ARM_ANIMATION, PacketType.Play.Client.HELD_ITEM_SLOT) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer());
@@ -23,42 +40,32 @@ public class Crash extends Fix {
                 if(data != null) {
                     if(event.getPacketType() == PacketType.Play.Client.HELD_ITEM_SLOT) {
                         if(MathUtil.elapsed(data.heldItemsInSecond, 1000L)) {
-                            if(data.heldItems > 40) {
-                                event.getPlayer().kickPlayer("Mojank: Boxer");
-                            }
+                            data.heldItems = 0;
                         } else {
-                            data.heldItems++;
+                            if(data.heldItems++ > 40) {
+                                if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+                                    event.setCancelled(true);
+                                } else {
+                                    event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Item"));
+                                }
+                            }
                         }
                     }
                     else if(event.getPacketType() == PacketType.Play.Client.ARM_ANIMATION) {
                         if(MathUtil.elapsed(data.armSwingsInSecond, 1000L)) {
-                            if(data.swings > 100) {
-                                event.getPlayer().kickPlayer("Mojank: Swing crasher");
-                            }
+                            data.swings = 0;
                         } else {
-                            data.swings++;
-                        }
-                    } else {
-                        if(MathUtil.elapsed(data.flyingPacketsInSecond, 1000L)) {
-                            if(data.flyingPacketsInSecond > 150) {
-                                event.getPlayer().kickPlayer("Mojank: Too many packets. Lag?");
+                            if(data.swings++ > 100) {
+                                if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+                                    event.setCancelled(true);
+                                } else {
+                                    event.getPlayer().kickPlayer(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Swing"));
+                                }
                             }
-                            data.flyingPacketsInSecond = 0;
-                        } else {
-                            data.flyingPacketsInSecond++;
                         }
                     }
                 }
             }
         });
     }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        if(event.getFrom().distance(event.getTo()) > 20) {
-            event.getPlayer().kickPlayer("Mojank: Moved too far (" + event.getFrom().distance(event.getTo()) + ")");
-        }
-    }
-
-
 }

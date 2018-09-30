@@ -42,4 +42,9 @@ public class Falling extends Fix {
             //Bukkit.broadcastMessage("canceled" + ", " + event.getDamage());
         }
     }
+
+    @Override
+    public void protocolLibListeners() {
+
+    }
 }

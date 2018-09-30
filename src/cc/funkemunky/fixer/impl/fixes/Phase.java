@@ -48,7 +48,7 @@ public class Phase extends Fix {
 
         if(ReflectionsUtil.getCollidingBlocks(e.getPlayer(), box).size() > 0) {
             e.setTo(e.getFrom());
-            e.getPlayer().sendMessage(ChatColor.GRAY + "Fix: Phase");
+            //e.getPlayer().sendMessage(ChatColor.GRAY + "Fix: Phase");
         }
     }
 
@@ -64,4 +64,8 @@ public class Phase extends Fix {
         }
     }
 
+    @Override
+    public void protocolLibListeners() {
+
+    }
 }

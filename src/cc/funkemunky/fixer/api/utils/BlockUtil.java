@@ -3,10 +3,8 @@ package cc.funkemunky.fixer.api.utils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BlockUtil {

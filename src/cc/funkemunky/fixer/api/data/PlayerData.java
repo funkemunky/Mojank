@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 public class PlayerData {
 
     public Player player;
-    public double fallDistance;
+    public double fallDistance, lastFallDistance;
+    public int packetsReceived, swings, heldItems, chatVerbose;
+    public long flyingPacketsInSecond = 0, armSwingsInSecond = 0, heldItemsInSecond = 0, lastChat;
     private BoundingBox boundingBox;
     private boolean onGround, onGroundBefore, inLiquid;
 

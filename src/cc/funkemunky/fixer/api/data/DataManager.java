@@ -1,6 +1,7 @@
 package cc.funkemunky.fixer.api.data;
 
 import cc.funkemunky.fixer.api.event.MListener;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,6 +19,10 @@ public class DataManager extends MListener {
 
     public DataManager() {
         dataObjects = new ArrayList<>();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            createDataObject(player);
+        }
     }
 
     public void createDataObject(Player player) {
@@ -42,13 +47,15 @@ public class DataManager extends MListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         createDataObject(event.getPlayer());
+
+        //event.getPlayer().sendMessage("test");
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         PlayerData data = getPlayerData(event.getPlayer());
 
-        if(data != null) {
+        if (data != null) {
             removeDataObject(data);
         }
     }

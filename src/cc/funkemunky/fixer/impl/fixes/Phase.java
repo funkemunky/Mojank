@@ -5,8 +5,6 @@ import cc.funkemunky.fixer.api.utils.BlockUtil;
 import cc.funkemunky.fixer.api.utils.BoundingBox;
 import cc.funkemunky.fixer.api.utils.MathUtil;
 import cc.funkemunky.fixer.api.utils.ReflectionsUtil;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +17,7 @@ import java.util.WeakHashMap;
 
 public class Phase extends Fix {
     private Map<Player, Long> lastDoorSwing;
+
     public Phase() {
         super("Phase", true);
 
@@ -45,20 +44,9 @@ public class Phase extends Fix {
 
         Object box = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ).add(0f, 0f, 0f, 0f, 1.8f, 0f).toAxisAlignedBB();
 
-        if(ReflectionsUtil.getCollidingBlocks(e.getPlayer(), box).size() > 0) {
+        if (ReflectionsUtil.getCollidingBlocks(e.getPlayer(), box).size() > 0) {
             e.setTo(e.getFrom());
-        }
-    }
-
-    @EventHandler
-    public void onVclip(PlayerMoveEvent event) {
-        for(int y = Math.min(event.getFrom().getBlockY(), event.getTo().getBlockY()) ; y < Math.max(event.getFrom().getBlockY(), event.getTo().getBlockY()) ; y++) {
-            Block block = new Location(event.getPlayer().getWorld(), event.getTo().getX(), y, event.getTo().getZ()).getBlock();
-
-            if(BlockUtil.isSolid(block)) {
-                event.setCancelled(true);
-                break;
-            }
+            //e.getPlayer().sendMessage(ChatColor.GRAY + "Fix: Phase");
         }
     }
 
@@ -74,4 +62,8 @@ public class Phase extends Fix {
         }
     }
 
+    @Override
+    public void protocolLibListeners() {
+
+    }
 }

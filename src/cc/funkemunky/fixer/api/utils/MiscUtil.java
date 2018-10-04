@@ -1,7 +1,10 @@
 package cc.funkemunky.fixer.api.utils;
 
+import cc.funkemunky.fixer.Mojank;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -53,5 +56,20 @@ public class MiscUtil {
         return ReflectionsUtil.toBoundingBox(ReflectionsUtil.getBoundingBox(entity));
     }
 
+    public static void sendConsoleMessage(String message) {
+        Mojank.getInstance().getConsole().sendMessage(Color.translate(message));
+    }
+
+    public static void sendPlayerMessage(Player player, String message) {
+        player.sendMessage(Mojank.getInstance().getPrefix() + Color.translate(message));
+    }
+
+    public static void sendPlayerMessage(CommandSender player, String message) {
+        player.sendMessage(Mojank.getInstance().getPrefix() + Color.translate(message));
+    }
+
+    public static String line(String color) {
+        return color + Color.Strikethrough + "-----------------------------------------------------";
+    }
 
 }

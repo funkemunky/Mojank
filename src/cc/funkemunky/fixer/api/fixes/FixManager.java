@@ -28,10 +28,11 @@ public class FixManager {
         addFix(new AntiVPN());
         addFix(new BookExploits());
         addFix(new Spam());
+        addFix(new ESP());
     }
 
     public void addFix(Fix fix) {
-        if(!fix.isRequiresProtocolLib() || isProtocolLibLoaded) {
+        if (!fix.isRequiresProtocolLib() || isProtocolLibLoaded) {
             fixes.add(fix);
         } else {
             MiscUtil.sendConsoleMessage("&cCould not load fix \"" + fix.getName() + "\" because ProtocolLib is not enabled.");

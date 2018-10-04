@@ -26,9 +26,9 @@ public class Spam extends Fix {
             public void onPacketReceiving(PacketEvent event) {
                 PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer());
 
-                if(data != null) {
-                    if(!MathUtil.elapsed(data.lastChat, (int) getConfigValues().get("timeAllowed"))) {
-                        if(data.chatVerbose++ > (int) getConfigValues().get("threshold")) {
+                if (data != null) {
+                    if (!MathUtil.elapsed(data.lastChat, (int) getConfigValues().get("timeAllowed"))) {
+                        if (data.chatVerbose++ > (int) getConfigValues().get("threshold")) {
                             event.getPlayer().kickPlayer(Color.translate((String) getConfigValues().get("kickMessage")));
                         }
                     } else {

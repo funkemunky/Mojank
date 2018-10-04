@@ -20,7 +20,7 @@ public class DataManager extends MListener {
     public DataManager() {
         dataObjects = new ArrayList<>();
 
-        for(Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             createDataObject(player);
         }
     }
@@ -55,7 +55,7 @@ public class DataManager extends MListener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         PlayerData data = getPlayerData(event.getPlayer());
 
-        if(data != null) {
+        if (data != null) {
             removeDataObject(data);
         }
     }

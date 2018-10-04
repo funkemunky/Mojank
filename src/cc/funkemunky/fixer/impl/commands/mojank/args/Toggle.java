@@ -18,14 +18,14 @@ public class Toggle extends CommandArgument {
 
     @Override
     public void runArgument(CommandSender sender, String command, String[] args) {
-        if(args.length == 2) {
-           Fix fix = Mojank.getInstance().getFixManager().getFix(args[1]);
+        if (args.length == 2) {
+            Fix fix = Mojank.getInstance().getFixManager().getFix(args[1]);
 
-           if(fix != null) {
-               fix.setEnabled(!fix.isEnabled());
-               MiscUtil.sendPlayerMessage(sender, getMessages().get("toggled").replaceAll("%fix%", fix.getName()).replaceAll("%state%", String.valueOf(fix.isEnabled())));
-               return;
-           }
+            if (fix != null) {
+                fix.setEnabled(!fix.isEnabled());
+                MiscUtil.sendPlayerMessage(sender, getMessages().get("toggled").replaceAll("%fix%", fix.getName()).replaceAll("%state%", String.valueOf(fix.isEnabled())));
+                return;
+            }
             MiscUtil.sendPlayerMessage(sender, getMessages().get("fixDoesntExist").replaceAll("%arg%", args[1]));
 
             StringBuilder options = new StringBuilder();
@@ -35,11 +35,11 @@ public class Toggle extends CommandArgument {
                 options.append(Color.Yellow).append(option.getName()).append(i + 1 < Mojank.getInstance().getFixManager().getFixes().size() ? Color.Gray + ", " : "");
             }
             MiscUtil.sendPlayerMessage(sender, getMessages().get("fixOptions").replaceAll("%options%", options.toString()));
-        } else if(args.length == 3) {
+        } else if (args.length == 3) {
             Fix fix = Mojank.getInstance().getFixManager().getFix(args[1]);
             boolean enabled = Boolean.parseBoolean(args[2]);
 
-            if(fix != null) {
+            if (fix != null) {
                 fix.setEnabled(enabled);
                 MiscUtil.sendPlayerMessage(sender, getMessages().get("toggled").replaceAll("%fix%", fix.getName()).replaceAll("%state%", String.valueOf(fix.isEnabled())));
                 return;

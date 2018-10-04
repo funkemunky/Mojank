@@ -21,8 +21,8 @@ public class Crash extends Fix {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if(event.getFrom().distance(event.getTo()) > 20) {
-            if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+        if (event.getFrom().distance(event.getTo()) > 20) {
+            if ((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                 event.setCancelled(true);
             } else {
                 event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Move")));
@@ -38,26 +38,25 @@ public class Crash extends Fix {
             public void onPacketReceiving(PacketEvent event) {
                 PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer());
 
-                if(data != null) {
-                    if(event.getPacketType() == PacketType.Play.Client.HELD_ITEM_SLOT) {
-                        if(MathUtil.elapsed(data.heldItemsInSecond, 1000L)) {
+                if (data != null) {
+                    if (event.getPacketType() == PacketType.Play.Client.HELD_ITEM_SLOT) {
+                        if (MathUtil.elapsed(data.heldItemsInSecond, 1000L)) {
                             data.heldItems = 0;
                         } else {
-                            if(data.heldItems++ > 40) {
-                                if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+                            if (data.heldItems++ > 40) {
+                                if ((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                                     event.setCancelled(true);
                                 } else {
                                     event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Item")));
                                 }
                             }
                         }
-                    }
-                    else if(event.getPacketType() == PacketType.Play.Client.ARM_ANIMATION) {
-                        if(MathUtil.elapsed(data.armSwingsInSecond, 1000L)) {
+                    } else if (event.getPacketType() == PacketType.Play.Client.ARM_ANIMATION) {
+                        if (MathUtil.elapsed(data.armSwingsInSecond, 1000L)) {
                             data.swings = 0;
                         } else {
-                            if(data.swings++ > 100) {
-                                if((boolean) getConfigValues().get("cancelInsteadOfKick")) {
+                            if (data.swings++ > 100) {
+                                if ((boolean) getConfigValues().get("cancelInsteadOfKick")) {
                                     event.setCancelled(true);
                                 } else {
                                     event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%method%", "Swing")));

@@ -4,9 +4,7 @@ import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.utils.Color;
 import cc.funkemunky.fixer.api.utils.MiscUtil;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -36,8 +34,8 @@ public abstract class Command {
         arguments.add(argument);
 
         String path = "messages." + name + ".args." + argument.getArgument()[0];
-        for(String id : argument.getMessages().keySet()) {
-            if(Mojank.getInstance().getConfig().get(path + "." + id) == null) {
+        for (String id : argument.getMessages().keySet()) {
+            if (Mojank.getInstance().getConfig().get(path + "." + id) == null) {
                 Mojank.getInstance().getConfig().set(path + "." + id, argument.getMessages().get(id));
             }
             Mojank.getInstance().saveConfig();
@@ -46,7 +44,7 @@ public abstract class Command {
     }
 
     public void onCommand(CommandSender sender, String[] args) {
-        if(hasCustomArgs) {
+        if (hasCustomArgs) {
             if (args.length == 0) {
                 sender.sendMessage(MiscUtil.line(Color.Dark_Gray));
                 sender.sendMessage(Color.Gold + Color.Bold + display + Color.Yellow + " Command Help " + Color.White + "Page (1 / " + ((arguments.size() / 6) + (arguments.size() - ((arguments.size() / 6) * 6) > 0 ? 1 : 0)) + ")");

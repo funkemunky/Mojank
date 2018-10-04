@@ -3,12 +3,10 @@ package cc.funkemunky.fixer.impl.fixes;
 import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.fixes.Fix;
 import cc.funkemunky.fixer.api.utils.Color;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,13 +28,13 @@ public class AntiVPN extends Fix {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(!(boolean) getConfigValues().get("allowPermBypass") || (!event.getPlayer().hasPermission("mojank.antivpn.bypass") && !event.getPlayer().hasPermission("mojank.admin"))) {
-            new BukkitRunnable(){
+        if (!(boolean) getConfigValues().get("allowPermBypass") || (!event.getPlayer().hasPermission("mojank.antivpn.bypass") && !event.getPlayer().hasPermission("mojank.admin"))) {
+            new BukkitRunnable() {
                 public void run() {
                     Map<String, String> result = getResponse(event.getPlayer());
 
-                    if(result.get("status").equalsIgnoreCase("success")) {
-                        if(result.get("hostIP").equalsIgnoreCase("true")) {
+                    if (result.get("status").equalsIgnoreCase("success")) {
+                        if (result.get("hostIP").equalsIgnoreCase("true")) {
                             new BukkitRunnable() {
                                 public void run() {
                                     event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%ip%", result.get("ip")).replaceAll("%country%", result.get("countryName"))));
@@ -59,27 +57,21 @@ public class AntiVPN extends Fix {
             URLConnection connection = new URL(url).openConnection();
             connection.setRequestProperty("User-Agent", "Mojank v" + Mojank.getInstance().getDescription().getVersion());
             connection.setConnectTimeout(10000);
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));Throwable localThrowable3 = null;
-            try
-            {
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            Throwable localThrowable3 = null;
+            try {
                 while ((url = in.readLine()) != null) {
                     response.append(url);
                 }
                 in.close();
-            }
-            catch (Throwable localThrowable1)
-            {
-                localThrowable3 = localThrowable1;throw localThrowable1;
-            }
-            finally
-            {
+            } catch (Throwable localThrowable1) {
+                localThrowable3 = localThrowable1;
+                throw localThrowable1;
+            } finally {
                 if (localThrowable3 != null) {
-                    try
-                    {
+                    try {
                         in.close();
-                    }
-                    catch (Throwable localThrowable2)
-                    {
+                    } catch (Throwable localThrowable2) {
                         localThrowable3.addSuppressed(localThrowable2);
                     }
                 } else {
@@ -91,7 +83,7 @@ public class AntiVPN extends Fix {
             String status = object.getString("status");
 
             toReturn.put("status", status);
-            if(status.equalsIgnoreCase("success")) {
+            if (status.equalsIgnoreCase("success")) {
                 String ip = object.getString("ipaddress");
                 String hostIP = object.getBoolean("host-ip") ? "true" : "false";
                 JSONObject country = object.getJSONObject("country");

@@ -25,9 +25,9 @@ public class MorePackets extends Fix {
             public void onPacketReceiving(PacketEvent event) {
                 PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer());
 
-                if(data != null) {
-                    if(MathUtil.elapsed(data.flyingPacketsInSecond, 1000L)) {
-                        if(data.flyingPacketsInSecond > 150) {
+                if (data != null) {
+                    if (MathUtil.elapsed(data.flyingPacketsInSecond, 1000L)) {
+                        if (data.flyingPacketsInSecond > 150) {
                             event.getPlayer().kickPlayer(Color.translate((String) getConfigValues().get("kickMessage")));
                         }
                         data.flyingPacketsInSecond = 0;

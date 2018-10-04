@@ -26,7 +26,7 @@ public class DamageIndicators extends Fix {
 
             public void onPacketSending(PacketEvent event) {
                 PacketContainer packet = event.getPacket();
-                Entity e =  packet.getEntityModifier(event).read(0);
+                Entity e = packet.getEntityModifier(event).read(0);
                 if (e instanceof LivingEntity && e.getType().equals(EntityType.PLAYER)
                         && packet.getWatchableCollectionModifier().read(0) != null
                         && e.getUniqueId() != event.getPlayer().getUniqueId()) {
@@ -43,7 +43,7 @@ public class DamageIndicators extends Fix {
 
             private void processDataWatcher(WrappedDataWatcher watcher) {
                 if (watcher != null && watcher.getObject(6) != null && watcher.getFloat(6) != 0.0F) {
-                    watcher.setObject(6, (boolean) getConfigValues().get("blockNameTags") ? Float.NaN : 1f);
+                    watcher.setObject(6, (boolean) getConfigValues().get("blockNametags") ? Float.NaN : 1f);
                 }
             }
         });

@@ -19,7 +19,7 @@ public abstract class CommandArgument {
     public CommandArgument(String argument, String display, String description, int argLength, boolean fixes) {
         this.display = display;
         this.description = description;
-        this.argument = new String[] {argument};
+        this.argument = new String[]{argument};
         this.argLength = argLength;
         this.fixes = fixes;
     }
@@ -27,19 +27,19 @@ public abstract class CommandArgument {
     public CommandArgument(String argument, String display, String description, int argLength, boolean fixes, String... permission) {
         this.display = display;
         this.description = description;
-        this.argument = new String[] {argument};
+        this.argument = new String[]{argument};
         this.argLength = argLength;
         this.fixes = fixes;
         this.permission = permission;
     }
 
-    public CommandArgument(String display, String description, int argLength, boolean fixes, String permission, String...aliases) {
+    public CommandArgument(String display, String description, int argLength, boolean fixes, String permission, String... aliases) {
         this.display = display;
         this.description = description;
         this.argument = aliases;
         this.argLength = argLength;
         this.fixes = fixes;
-        this.permission = new String[] {permission};
+        this.permission = new String[]{permission};
     }
 
     public void addMessage(String id, String msg) {

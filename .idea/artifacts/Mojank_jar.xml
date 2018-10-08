@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="Mojank">
-    <output-path>$PROJECT_DIR$/out/artifacts/Mojank</output-path>
+  <artifact type="jar" name="Mojank:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mojank_jar</output-path>
     <root id="archive" name="Mojank.jar">
       <element id="module-output" name="Mojank" />
     </root>

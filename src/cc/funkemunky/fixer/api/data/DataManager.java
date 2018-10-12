@@ -1,12 +1,17 @@
 package cc.funkemunky.fixer.api.data;
 
+import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.event.MListener;
+import cc.funkemunky.fixer.api.utils.FunkeFile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,12 @@ public class DataManager extends MListener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             createDataObject(player);
         }
+
+        new BukkitRunnable() {
+            public void run() {
+                dataObjects.forEach(data -> data.log.write());
+            }
+        }.runTaskTimerAsynchronously(Mojank.getInstance(), 0L, 2400);
     }
 
     public void createDataObject(Player player) {
@@ -38,6 +49,13 @@ public class DataManager extends MListener {
             if (data.player == player) return data;
         }
         return null;
+    }
+
+    public void addLog(PlayerData data, String log) {
+        LocalDateTime now = LocalDateTime.now();
+
+        if(data.log == null) data.log = new FunkeFile(Mojank.getInstance(), "logs", data.player.getName());
+        data.log.addLine("<" + now + "> " + log);
     }
 
     public List<PlayerData> getDataObjects() {

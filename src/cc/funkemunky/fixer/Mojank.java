@@ -17,6 +17,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Getter
 public class Mojank extends JavaPlugin {
 
@@ -26,6 +29,8 @@ public class Mojank extends JavaPlugin {
     private FixManager fixManager;
     private CommandManager commandManager;
     private ConsoleCommandSender console;
+    private ExecutorService[] services;
+    private int current;
 
     public static Mojank getInstance() {
         return instance;
@@ -35,6 +40,13 @@ public class Mojank extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
         console = Bukkit.getConsoleSender();
+
+        current = 0;
+        services = new ExecutorService[Runtime.getRuntime().availableProcessors() - 1];
+
+        for (int i = 0; i < services.length; i++) {
+            services[i] = Executors.newSingleThreadExecutor();
+        }
 
         serverVersion = Bukkit.getServer().getClass().getPackage().getName().substring(23);
 
@@ -75,6 +87,16 @@ public class Mojank extends JavaPlugin {
             }
         }
         saveConfig();
+    }
+
+    public ExecutorService getThread() {
+        int thread = current >= services.length - 1 ? current = 0 : current++;
+
+        return services[thread];
+    }
+
+    public ExecutorService getThread(int thread) {
+        return services[thread];
     }
 
     public String getPrefix() {

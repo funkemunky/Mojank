@@ -8,9 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="ProtocolLib" level="project" />
-    <orderEntry type="library" name="spigot-1.8-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="lombok-1.18.0" level="project" />
-    <orderEntry type="library" name="clubspigot-1.8.8-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="spigot-1.7.10-SNAPSHOT-b1643" level="project" />
+    <orderEntry type="library" name="ProtocolLib 1.8-1.12" level="project" />
+    <orderEntry type="library" name="Lombok-1.6.6" level="project" />
   </component>
 </module>

@@ -29,6 +29,7 @@ public class FixManager {
         addFix(new BookExploits());
         addFix(new Spam());
         addFix(new ESP());
+        addFix(new TeleportFix());
     }
 
     public void addFix(Fix fix) {

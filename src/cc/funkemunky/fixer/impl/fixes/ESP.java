@@ -21,7 +21,7 @@ public class ESP extends Fix {
             public void run() {
                 if (isEnabled()) {
                     Bukkit.getOnlinePlayers().forEach(online -> {
-                        online.getWorld().getEntities().parallelStream().filter(entity -> entity instanceof Player && entity.getLocation().distance(online.getLocation()) < 50 && MathUtil.getOffsetFromEntity(online, (LivingEntity) entity)[0] < 150).forEach(entity -> {
+                        online.getWorld().getEntities().parallelStream().filter(entity -> entity instanceof Player && ((Player) entity).isSneaking() && entity.getLocation().distance(online.getLocation()) < 50 && MathUtil.getOffsetFromEntity(online, (LivingEntity) entity)[0] < 150).forEach(entity -> {
                             BoundingBox box = new BoundingBox(online.getEyeLocation().toVector(), entity.getLocation().toVector());
 
                             if(!online.hasLineOfSight(entity)) {

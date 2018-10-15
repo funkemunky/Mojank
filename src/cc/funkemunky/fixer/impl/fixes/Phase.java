@@ -1,10 +1,12 @@
 package cc.funkemunky.fixer.impl.fixes;
 
+import cc.funkemunky.fixer.Mojank;
+import cc.funkemunky.fixer.api.data.PlayerData;
 import cc.funkemunky.fixer.api.fixes.Fix;
-import cc.funkemunky.fixer.api.utils.BlockUtil;
-import cc.funkemunky.fixer.api.utils.BoundingBox;
-import cc.funkemunky.fixer.api.utils.MathUtil;
-import cc.funkemunky.fixer.api.utils.ReflectionsUtil;
+import cc.funkemunky.fixer.api.utils.*;
+import com.google.common.collect.Lists;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,8 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 
 public class Phase extends Fix {
     private Map<Player, Long> lastDoorSwing;
@@ -27,6 +28,7 @@ public class Phase extends Fix {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPhase(PlayerMoveEvent e) {
         Player player = e.getPlayer();
+        PlayerData data = Mojank.getInstance().getDataManager().getPlayerData(player);
 
         if (player.getAllowFlight()
                 || player.getVehicle() != null
@@ -45,9 +47,17 @@ public class Phase extends Fix {
         Object box = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ).add(0f, 0f, 0f, 0f, 1.8f, 0f).toAxisAlignedBB();
 
         if (ReflectionsUtil.getCollidingBlocks(e.getPlayer(), box).size() > 0) {
-            e.setTo(e.getFrom());
+            Location setback = findSetback(data);
+
+            if(setback != null) {
+                setback.setPitch(e.getTo().getPitch());
+                setback.setYaw(e.getTo().getYaw());
+            }
+            e.setTo(setback != null ? setback : e.getFrom());
             //e.getPlayer().sendMessage(ChatColor.GRAY + "Fix: Phase");
         }
+
+        data.locations.addLocation(MiscUtil.getEntityBoundingBox(player), data);
     }
 
     @EventHandler
@@ -65,5 +75,16 @@ public class Phase extends Fix {
     @Override
     public void protocolLibListeners() {
 
+    }
+
+    public Location findSetback(PlayerData data) {
+        List<BoundingBox> boxes = new ArrayList<>(data.locations.getBoundingBoxes());
+
+        for(BoundingBox box : boxes) {
+            if(box.getCollidingBlocks(data.player).size() == 0) {
+                return box.getMinimum().toLocation(data.player.getWorld());
+            }
+        }
+        return null;
     }
 }

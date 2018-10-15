@@ -38,11 +38,10 @@ public class AntiVPN extends Fix {
                             new BukkitRunnable() {
                                 public void run() {
                                     event.getPlayer().kickPlayer(Color.translate(((String) getConfigValues().get("kickMessage")).replaceAll("%ip%", result.get("ip")).replaceAll("%country%", result.get("countryName"))));
+                                    AntiVPN.this.cancel(Mojank.getInstance().getDataManager().getPlayerData(event.getPlayer()), "Player " + event.getPlayer().getName() + " on the IP " + event.getPlayer().getAddress().getAddress().getHostAddress() + " is using a VPN.");
                                 }
                             }.runTask(Mojank.getInstance());
                         }
-                    } else {
-
                     }
                 }
             }.runTaskAsynchronously(Mojank.getInstance());

@@ -1,6 +1,7 @@
 package cc.funkemunky.fixer.api.fixes;
 
 import cc.funkemunky.fixer.Mojank;
+import cc.funkemunky.fixer.api.data.PlayerData;
 import cc.funkemunky.fixer.api.event.MListener;
 import cc.funkemunky.fixer.api.utils.MiscUtil;
 import lombok.Getter;
@@ -36,6 +37,11 @@ public abstract class Fix extends MListener {
         } else {
             MiscUtil.sendConsoleMessage("&cCould not load fix \"" + name + "\" because ProtocolLib is not enabled.");
         }
+    }
+
+    public boolean cancel(PlayerData data, String log) {
+        Mojank.getInstance().getDataManager().addLog(data, log);
+        return true;
     }
 
     public void addConfigValue(String name, Object value) {

@@ -3,6 +3,7 @@ package cc.funkemunky.fixer.impl.fixes;
 import cc.funkemunky.fixer.Mojank;
 import cc.funkemunky.fixer.api.data.PlayerData;
 import cc.funkemunky.fixer.api.fixes.Fix;
+import cc.funkemunky.fixer.api.utils.BlockUtil;
 import cc.funkemunky.fixer.api.utils.MathUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ public class Falling extends Fix {
 
         boolean onGround = !data.getBoundingBox().subtract(0, MathUtil.getVerticalDistance(event.getFrom(), event.getTo()) == 0 ? 0.5f : (float) MathUtil.getVerticalDistance(event.getFrom(), event.getTo()) * 1.5f, 0, 0, 0, 0).getCollidingBlocks(event.getPlayer()).isEmpty();
 
-        if ((onGround || data.fallDistance % 1 == 0) && data.fallDistance > 3) {
+        if ((onGround || data.fallDistance % 1 == 0) && data.fallDistance > 3 && !BlockUtil.isLiquid(data.player.getLocation().getBlock())) {
             event.getPlayer().damage(data.fallDistance - 4D);
             // Bukkit.broadcastMessage("damaged");
         }
